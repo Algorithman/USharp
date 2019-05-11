@@ -628,17 +628,17 @@ void FSharpHotReloadClassReinstancer::UpdateDefaultProperties()
 				PropertyToUpdate.NewValuePtr = nullptr;
 				PropertyToUpdate.SubobjectName = NewPropertyInfo.SubobjectName;
 
-				if (NewPropertyInfo.Property->GetOuter() == NewClass)
-				{
-					PropertyToUpdate.NewValuePtr = PropertyToUpdate.Property->ContainerPtrToValuePtr<uint8>(NewClass->GetDefaultObject());
-				}
-				else if (NewPropertyInfo.SubobjectName != NAME_None)
+				if (NewPropertyInfo.SubobjectName != NAME_None)
 				{
 					UObject* DefaultSubobjectPtr = FindDefaultSubobject(DefaultSubobjectArray, NewPropertyInfo.SubobjectName);
 					if (DefaultSubobjectPtr && DefaultSubobjectPtr->GetClass()->IsChildOf((UClass*)NewPropertyInfo.Property->GetOuter()))
 					{
 						PropertyToUpdate.NewValuePtr = PropertyToUpdate.Property->ContainerPtrToValuePtr<uint8>(DefaultSubobjectPtr);
 					}
+				}
+				else
+				{
+					PropertyToUpdate.NewValuePtr = PropertyToUpdate.Property->ContainerPtrToValuePtr<uint8>(NewClass->GetDefaultObject());
 				}
 				if (PropertyToUpdate.NewValuePtr)
 				{
