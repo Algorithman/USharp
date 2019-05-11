@@ -635,7 +635,7 @@ void FSharpHotReloadClassReinstancer::UpdateDefaultProperties()
 				else if (NewPropertyInfo.SubobjectName != NAME_None)
 				{
 					UObject* DefaultSubobjectPtr = FindDefaultSubobject(DefaultSubobjectArray, NewPropertyInfo.SubobjectName);
-					if (DefaultSubobjectPtr && NewPropertyInfo.Property->GetOuter() == DefaultSubobjectPtr->GetClass())
+					if (DefaultSubobjectPtr && DefaultSubobjectPtr->GetClass()->IsChildOf((UClass*)NewPropertyInfo.Property->GetOuter()))
 					{
 						PropertyToUpdate.NewValuePtr = PropertyToUpdate.Property->ContainerPtrToValuePtr<uint8>(DefaultSubobjectPtr);
 					}
@@ -671,7 +671,7 @@ void FSharpHotReloadClassReinstancer::UpdateDefaultProperties()
 				else
 				{
 					UObject* DefaultSubobjectPtr = FindDefaultSubobject(DefaultSubobjectArray, PropertyToUpdate.SubobjectName);
-					if (DefaultSubobjectPtr && PropertyToUpdate.Property->GetOuter() == DefaultSubobjectPtr->GetClass())
+					if (DefaultSubobjectPtr && DefaultSubobjectPtr->GetClass()->IsChildOf((UClass*)PropertyToUpdate.Property->GetOuter()))
 					{
 						InstanceValuePtr = PropertyToUpdate.Property->ContainerPtrToValuePtr<uint8>(DefaultSubobjectPtr);
 					}
